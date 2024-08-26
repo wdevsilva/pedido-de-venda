@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!doctype html>
 <html lang="en">
 
@@ -18,7 +15,12 @@
             <form action="#" class="form-control" style="width: 800px; margin: 0 auto;">
                 <input type="text" name="nsu" id="nsu" class="form-control" placeholder="Digite a NSU, cpf aluno">
                 <br>
-                <button type="button" class="btn btn-primary" id="enviar">Enviar</button>
+                <center><button type="button" class="btn btn-primary" id="enviar">Consultar</button></center>
+            </form>
+            <form action="#" class="form-control" style="width: 800px; margin: 0 auto;">
+                <input type="text" name="cpf" id="cpf" class="form-control" placeholder="Digite o cpf do aluno">
+                <br>
+                <center><button type="button" class="btn btn-primary" id="poscli">Consultar Poscli</button></center>
             </form>
         </nav>
         <hr>
@@ -46,10 +48,38 @@
                     beforeSend: function() {
                         $('#result').fadeIn();
                         document.getElementById("result").innerHTML = '';
-                        document.getElementById("result").innerHTML = '<p style="width:30px; margin:0 auto; margin-top:20%;"><img src="images/loading.gif"></p>';
+                        document.getElementById("result").innerHTML = '<p style="margin-left: 50%;"><img src="images/loading.gif"></p>';
                     },
                     success: function(data) {
                         $("#enviar").prop('disabled', false);
+
+                        $('#result').html(data);
+                    }
+                });
+            });
+            
+            $("#poscli").click(function() {
+
+                $("#poscli").prop('disabled', true);
+
+                var dados = document.getElementById('cpf').value;
+
+                if(dados == ''){
+                    alert('Favor informe o cpf do aluno');
+                    $("#poscli").prop('disabled', false);
+                    return false;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: "includes/poscli.php?cpf=" + dados,
+                    beforeSend: function() {
+                        $('#result').fadeIn();
+                        document.getElementById("result").innerHTML = '';
+                        document.getElementById("result").innerHTML = '<p style="margin-left: 50%;"><img src="images/loading.gif"></p>';
+                    },
+                    success: function(data) {
+                        $("#poscli").prop('disabled', false);
 
                         $('#result').html(data);
                     }
