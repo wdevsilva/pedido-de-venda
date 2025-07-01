@@ -9,7 +9,7 @@
     <script src="js/jquery.min.js"></script>
 </head>
 
-<body style="background-color: #ccc;">
+<body>
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-warning" style="margin-top: 2%;">
             <form action="#" class="form-control" style="width: 800px; margin: 0 auto;">
