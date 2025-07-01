@@ -12,6 +12,7 @@ $query_poscli = $pdo->prepare("select * from (
 			rtrim(isnull(E1_BAIXA,'')) as DATABAIXA,
 			C5_EMISSAO as DATAPEDIDO,
 			C5_FILIAL as FILIAL,
+			C5_NOTA,
 			A1_LOJA as LOJA,
 			rtrim(A1_NOME) as NOME,
 			isnull(E1_NUM,'') as NUM,
@@ -115,13 +116,8 @@ $query_poscli = $pdo->prepare("select * from (
 			where D_E_L_E_T_=' '
 			group by C6_FILIAL, C6_NUM
 		) C6 ON (C5_FILIAL=C6_FILIAL AND C5_NUM=C6_NUM ) 
-		where 1 = 1
-		-- and isnull(C5.C5_YPEDFIS,'') like 'N'
-		-- and isnull(C5.C5_XNUMPRO,'') like ''
-		-- and isnull(C5.C5_FILIAL,'') like '02'
-		and isnull(C5.C5_CLIENTE,'') like '$cpf_aluno'
+		where C5.C5_XNUMPRO = '$cpf_aluno' or isnull(C5.C5_CLIENTE,'') like '$cpf_aluno'
 	) vw
-	-- where STATUS like 'V'
 	order by NUMPEDIDO");
 $query_poscli->execute();
 
