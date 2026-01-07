@@ -17,17 +17,28 @@ define("DBNAME", getenv('DB_DATABASE'));
 function conectar()
 {
     try {
-        $servidor = HOST;
+        $servidor  = HOST;
         $instancia = INSTANCIA;
-        $porta = PORT;
-        $database = DBNAME;
-        $usuario = USER;
-        $senha = PASS;
-        $conexao = new PDO("sqlsrv:Server={$servidor}\\{$instancia},{$porta};Database={$database}", $usuario, $senha);
+        $porta     = PORT;
+        $database  = DBNAME;
+        $usuario   = USER;
+        $senha     = PASS;
+
+        $dsn = "sqlsrv:Server={$servidor}\\{$instancia},{$porta};Database={$database};Encrypt=yes;TrustServerCertificate=true";
+
+        $conexao = new PDO(
+            $dsn,
+            $usuario,
+            $senha,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            ]
+        );
     } catch (PDOException $e) {
-        echo "Drivers disponiveis: " . implode(",", PDO::getAvailableDrivers());
-        echo "\nErro: " . $e->getMessage();
+        echo "Drivers disponíveis: " . implode(", ", PDO::getAvailableDrivers()) . PHP_EOL;
+        echo "Erro: " . $e->getMessage();
         exit;
     }
+
     return $conexao;
 }
